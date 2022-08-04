@@ -1,3 +1,4 @@
+//第一版思路把链表转成整数然后再相加但是会爆int
 public class LeetCode_2 {
    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
       int a1=CountNumber(l1);
