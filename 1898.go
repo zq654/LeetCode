@@ -1,11 +1,13 @@
-package main
+package LeetCode
 
-func main() {
-	maximumRemovals("abcbddddd", "abcd", []int{3, 2, 1, 4, 5, 6})
-}
 func maximumRemovals(s string, p string, removable []int) int {
 	check := func(k int) bool {
-		recordMap := make(map[int]bool)
+		//recordMap := make(map[int]bool)
+		//for i := 0; i <= k; i++ {
+		//	recordMap[removable[i]] = true
+		//}
+		//把map换成数组性能提升很大
+		recordMap := make([]bool, len(s))
 		for i := 0; i <= k; i++ {
 			recordMap[removable[i]] = true
 		}
