@@ -1,8 +1,5 @@
-package main
+package LeetCode
 
-func main() {
-	splitArray([]int{7, 2, 5, 10, 8}, 2)
-}
 func splitArray(nums []int, k int) int {
 	//前缀和 + 差分 + 二分
 	length := len(nums)
