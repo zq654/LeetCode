@@ -1,40 +1,40 @@
 package LeetCode
 
-import (
-	"math"
-)
-
-func LongestConsecutive(nums []int) int {
-	if len(nums) <= 1 {
-		return len(nums)
-	}
-	m := make(map[int]struct{})
-	minNums := math.MaxInt32
-	maxNums := math.MinInt32
-	res := 1
-	length := 1
-	stepLength := 0
+func longestConsecutive(nums []int) int {
+	set := make(map[int]struct{})
 	for _, num := range nums {
-		m[num] = struct{}{}
-		if num > maxNums {
-			maxNums = num
-		}
-		if num < minNums {
-			minNums = num
-		}
+		set[num] = struct{}{}
 	}
-	for i := minNums + 1; i <= maxNums; i++ {
-		if _, ok := m[i]; ok {
-			length = length + 1
-		} else {
-			stepLength++
-			res = max(res, length)
-			length = 0
+	res := 0
+	for v, _ := range set {
+		if _, ok := set[v-1]; ok {
+			continue
 		}
-		if stepLength >= len(nums) {
-			break
+		count := 1
+
+		for _, exist := set[v+1]; exist; _, exist = set[v+1] {
+			count++
+			v++
 		}
+		res = max(res, count)
 	}
-	res = max(res, length)
+	return res
+}
+
+// 自己想的更新map边界的方法
+func longestConsecutive2(nums []int) int {
+	recordMap := make(map[int]int)
+	res := 0
+	for _, num := range nums {
+		if recordMap[num] > 0 {
+			continue
+		}
+		count := recordMap[num-1] + recordMap[num+1] + 1
+		recordMap[num] = count
+		//更新边界
+		recordMap[num-recordMap[num-1]] = count
+		recordMap[num+recordMap[num+1]] = count
+		res = max(res, count)
+	}
 	return res
 }

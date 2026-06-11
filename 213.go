@@ -8,9 +8,9 @@ func rob(nums []int) int {
 		return max(nums[0], nums[1])
 	}
 	//直接判断掐头大还是去尾大
-	return max(dp(nums[1:]), dp(nums[:len(nums)-1]))
+	return max(dpCount(nums[1:]), dpCount(nums[:len(nums)-1]))
 }
-func dp(nums []int) int {
+func dpCount(nums []int) int {
 	if len(nums) == 1 {
 		return nums[0]
 	}

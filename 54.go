@@ -1,47 +1,18 @@
 package LeetCode
 
-// todo 到时候用缩圈法写一遍
-func spiralOrder(matrix [][]int) []int {
-	if len(matrix[0]) == 1 {
-		res := make([]int, len(matrix))
-		for i, v := range matrix {
-			res[i] = v[0]
-		}
-		return res
-	}
-	//定义方向
-	var direct1 = []int{0, 1, 0, -1}
-	var direct2 = []int{1, 0, -1, 0}
-	//四个变量定义边界
-	upVerge := 0
-	downVerge := len(matrix) - 1
-	leftVerge := 0
-	rightVerge := len(matrix[0]) - 1
+var dirs = [4][2]int{{0, 1}, {1, 0}, {0, -1}, {-1, 0}} // 右下左上
 
-	dir := 0
-	nums := len(matrix) * len(matrix[0])
-	res := make([]int, nums)
-	//坐标
-	x := 0
-	y := 1
-	res[0] = matrix[0][0]
-	for i := 1; i < nums; i++ {
-		res[i] = matrix[x][y]
-		if dir == 0 && x == upVerge && y == rightVerge {
-			dir = (dir + 1) % 4
-			upVerge++
-		} else if dir == 1 && x == downVerge && y == rightVerge {
-			dir = (dir + 1) % 4
-			rightVerge--
-		} else if dir == 2 && x == downVerge && y == leftVerge {
-			dir = (dir + 1) % 4
-			downVerge--
-		} else if dir == 3 && x == upVerge && y == leftVerge {
-			dir = (dir + 1) % 4
-			leftVerge++
+func spiralOrder(matrix [][]int) []int {
+	m, n := len(matrix), len(matrix[0])
+	ans := make([]int, 0, m*n)
+	i, j := 0, -1 // 从 (0, -1) 开始
+	for di := 0; len(ans) < cap(ans); di = (di + 1) % 4 {
+		for x := 0; x < n; x++ { // 走 n 步（注意 n 会减少）
+			i += dirs[di][0]
+			j += dirs[di][1]                // 先走一步
+			ans = append(ans, matrix[i][j]) // 再加入答案
 		}
-		x = x + direct1[dir]
-		y = y + direct2[dir]
+		n, m = m-1, n // 减少后面的循环次数
 	}
-	return res
+	return ans
 }
